@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     private int currentScore;
     public bool IsGameStarted { get; private set; }
     private bool isGameEnded;
+    private bool restartCooldown;
 
     public Plane Plane { get => plane; }
     public Camera Cam { get => cam; }
@@ -60,6 +61,9 @@ public class GameManager : MonoBehaviour
 
         tapButton.onClick.AddListener(() =>
         {
+            if (restartCooldown)
+                return;
+
             if (!IsGameStarted)
                 StartGame();
             else
@@ -77,6 +81,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (restartCooldown)
+            return;
+
         if (!IsGameStarted)
         {
             if (!mobileInput && Input.GetKeyDown(KeyCode.Space))
@@ -148,6 +155,17 @@ public class GameManager : MonoBehaviour
             ShowUI(UIPanel.Lose);
             loseMessage.text = goToSpaceMessages[Random.Range(0, goToSpaceMessages.Length)];
         }
+
+        StartCoroutine(RestartCooldownCoroutine());
+    }
+
+    private IEnumerator RestartCooldownCoroutine()
+    {
+        restartCooldown = true;
+
+        yield return new WaitForSeconds(1f);
+     
+        restartCooldown = false;
     }
 
     private void OnEndVideo(VideoPlayer source)
