@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -33,6 +34,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI loseMessage;
     [SerializeField, TextArea] private string[] crashMessages;
     [SerializeField, TextArea] private string[] goToSpaceMessages;
+    [SerializeField, TextArea] private string[] insultMessages;
+    [SerializeField] private TextMeshProUGUI insultText;
 
     private int currentScore;
     public bool IsGameStarted { get; private set; }
@@ -49,6 +52,7 @@ public class GameManager : MonoBehaviour
 
         mainMenuUI.SetActive(true);
         gameplayUI.SetActive(false);
+        insultText.text = string.Empty;
 
         bestRecordText.text += PlayerPrefs.GetInt(RECORD_PREFS);
 
@@ -107,6 +111,9 @@ public class GameManager : MonoBehaviour
         currentScore++;
         scoreText.text = currentScore.ToString();
         AudioManager.Instance.ScoreUpSFX();
+
+        if (currentScore % 5 == 0)
+            InsultPlayer();
     }
 
     public void Lose(LoseReason reason)
@@ -175,5 +182,19 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void InsultPlayer()
+    {
+        StartCoroutine(InsultPlayerCoroutine());
+    }
+
+    private IEnumerator InsultPlayerCoroutine()
+    {
+        insultText.text = insultMessages[Random.Range(0, insultMessages.Length)];
+
+        yield return new WaitForSeconds(5f);
+
+        insultText.text = string.Empty;
     }
 }
