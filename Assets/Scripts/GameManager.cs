@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI startGameText;
+    [SerializeField] private TextMeshProUGUI[] endGameText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI bestRecordText;
     [SerializeField] private GameObject mainMenuUI;
@@ -74,9 +75,19 @@ public class GameManager : MonoBehaviour
         });
 
         if (mobileInput)
+        {
             startGameText.text = "Touch screen to Start!";
+
+            foreach (var text in endGameText)
+                text.text = "Touch screen to Restart!";
+        }
         else
+        {
             startGameText.text = "Press 'Space' to Start!";
+
+            foreach (var text in endGameText)
+                text.text = "Press 'Space' to Restart!";
+        }
     }
 
     private void Update()

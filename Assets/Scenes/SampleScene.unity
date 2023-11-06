@@ -784,6 +784,8 @@ MonoBehaviour:
   tapButton: {fileID: 14609770}
   mobileInput: 1
   startGameText: {fileID: 2085202384}
+  endGameText:
+  - {fileID: 103434707}
   scoreText: {fileID: 1021743742}
   bestRecordText: {fileID: 2058317837}
   mainMenuUI: {fileID: 1413245702}
