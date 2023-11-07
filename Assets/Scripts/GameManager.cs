@@ -140,7 +140,8 @@ public class GameManager : MonoBehaviour
         towerGenerator.StopGenerator();
         isGameEnded = true;
 
-        PlayerPrefs.SetInt(RECORD_PREFS, currentScore);
+        if (currentScore > PlayerPrefs.GetInt(RECORD_PREFS))
+            PlayerPrefs.SetInt(RECORD_PREFS, currentScore);
 
         if (reason == LoseReason.HitTower)
         {
@@ -175,7 +176,7 @@ public class GameManager : MonoBehaviour
         restartCooldown = true;
 
         yield return new WaitForSeconds(1f);
-     
+
         restartCooldown = false;
     }
 
